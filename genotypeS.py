@@ -48,26 +48,26 @@ class Genotype():
                 i += 1
                 j += 1
             else:
+                #Excess from other, ends loop
+                if i == len(self.genome):
+                    E = len(other.genome) - i
+                    break
+                #Excess from self, ends loop
+                if j == len(other.genome):
+                    E = len(self.genome) - j
+                    break
                 
                 D +=1                
                 if self.genome[i].innovationNum < other.genome[j].innovationNum:
                     i += 1
                 else:
                     j += 1
-        #Excess from other, ends loop
-        if i == len(self.genome):
-                    E = len(other.genome) - i
-        #Excess from self, ends loop
-        elif j == len(other.genome):
-                    E = len(self.genome) - j
+        
         #weight differences
         weightSum = 0
         for index in range(len(sameGenei)):
-            weightSum += abs(self.genome[sameGenei[index]].weight - other.genome[sameGenej[index]].weight)
-        if len(sameGenei) == 0:
-            W = 0
-        else:
-            W = weightSum/len(sameGenei)
+            weightSum += abs(self.genome[sameGenei[index]].weigth - other.genome[sameGenej[index]].weigth)
+        W = weightSum/len(sameGenei)
         
         
         distance = (c1*E)/N + (c2*D)/N + c3*W

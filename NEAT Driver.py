@@ -19,9 +19,8 @@ IDEAS:
     
 """
 
-import gzip
-import genotype
-
+import gzip;
+import genotype, gene
 
 def main():
     #stuff
@@ -30,8 +29,21 @@ def main():
     genome1 = []
     genome2 = []
     
-    genotype1 = genotpye.Genotype(genome1)
-    genotype2 = genotpye.Genotype(genome2)
+    genome1.append(gene.Gene(1, 5, 0.5, True, 1))
+    genome1.append(gene.Gene(2, 5, 0.5, True, 2))
+    genome1.append(gene.Gene(3, 5, 0.5, True, 3))
+    genome1.append(gene.Gene(4, 5, 0.5, True, 5))
+    
+    genome2.append(gene.Gene(1, 5, 1, True, 1))
+#    genome2.append(gene.Gene(2, 5, 0.5, True, 2))
+    genome2.append(gene.Gene(3, 5, 0.5, True, 3))
+    genome2.append(gene.Gene(4, 6, 1.0, True, 4))
+    
+
+    genotype1 = genotype.Genotype(genome1)
+    genotype2 = genotype.Genotype(genome2)
+    
+    print(genotype1.compatabilityDistance(genotype2, 1,2,3))
 
 
 
