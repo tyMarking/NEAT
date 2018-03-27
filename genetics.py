@@ -35,3 +35,11 @@ def runGeneration(population, c1,c2,c3,compatabilityThreshold, fitnessFunction, 
         else:
             #was not assigned to a species
             species.append([geno])
+            
+    speciesWEval = []
+    for speci in species:
+        speci = []
+        for geno in speci:
+            speci.append((geno, fitnessFunction(geno)))
+        speciesWEval.append(speci)
+    

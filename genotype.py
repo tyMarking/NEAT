@@ -25,7 +25,7 @@ class Genotype():
         """
         δ = (c1E/N)+(c2D/N)+c3*ΔW
         """
-        #TODO
+
         E = 0 #excess genes
         D = 0 #disjointed genes
         W = 0 #weight difference
