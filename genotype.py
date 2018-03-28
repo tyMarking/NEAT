@@ -3,6 +3,11 @@
 Created on Mon Mar 26 10:31:32 2018
 
 @author: Ty Marking
+
+two genomes
+one for nodes
+one for connections
+
 """
 
 

@@ -19,7 +19,9 @@ solvedNodes = {}
 """
 test set = [(in, out),(in, out)...]
 """
-def evaulate(genotype, testSet):
+import gene
+import genotype as Genotype
+def evaluate(genotype, testSet):
     genome = genotype.genome
     
     #How determine end nodes??
@@ -33,7 +35,7 @@ def evaulate(genotype, testSet):
         
         #assuming input nodes are 1 to # of inputs
         for i in test[0]:
-            solvedNodes.add(i+1, test[0][i])
+            solvedNodes[i] = test[0][i-1]
         
         outputs = []
         for num in endNodeNums:
@@ -51,15 +53,28 @@ def evaulate(genotype, testSet):
     return (correct/len(testSet))
 
 
-#using solvedNodes for synamic programming
+#using solvedNodes for dynamic programming
 def solveNode(genome, inputs, nodeNum):
     
     if nodeNum in solvedNodes:
         return solvedNodes[nodeNum]
     val = 0
-    for gene in genome:
-        if gene.outNode == nodeNum:
-            val += gene.weight * solveNode(genome, inputs, gene.inNode)
-    solvedNodes.add(nodeNum, val)
+    for geno in genome:
+        if geno.outNode == nodeNum:
+            val += geno.weight * solveNode(genome, inputs, geno.inNode)
+    solvedNodes[nodeNum] = val
     return val
             
+
+testSet = [((1,2,3),3)]
+genome = []
+
+genome.append(gene.Gene(1, 4, 1.0, True, 1))
+genome.append(gene.Gene(2, 4, 0.5, True, 2))
+genome.append(gene.Gene(3, 4, 2, True, 3))
+#    genome.append(gene.Gene(1, 5, 1.0, True, 4))
+#    genome.append(gene.Gene(2, 5, 0.5, True, 5))
+#    genome.append(gene.Gene(3, 5, 0.5, True, 6))
+#    genome.append(gene.Gene(4, 6, 1.0, True, 7))
+
+print(evaluate(Genotype.Genotype(genome), testSet))
