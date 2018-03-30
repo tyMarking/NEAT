@@ -12,12 +12,13 @@ one for connections
 
 
 class Genotype():
-    genome = []
+    connectGenome = []
+    nodeGenome = []
 #    species = 0
     
-    def __init__(self, genome):
-        self.genome = genome
-    
+    def __init__(self, connectGenome, nodeGenome):
+        self.connectGenome = connectGenome
+        self.nodeGenome = nodeGenome
     
     
     def run(self, inputs):
@@ -37,7 +38,7 @@ class Genotype():
         N = 0 #max number of genes
         
         # Max number of genes
-        N = max(len(self.genome), len(other.genome))
+        N = max(len(self.connectGenome), len(other.connectGenome))
         
        
         #excess and disjointed genes
@@ -45,9 +46,9 @@ class Genotype():
         j = 0
         sameGenei = []
         sameGenej = []
-        while i < len(self.genome) and j < len(other.genome):
+        while i < len(self.connectGenome) and j < len(other.connectGenome):
             #if same gene move on
-            if self.genome[i].innovationNum == other.genome[j].innovationNum:
+            if self.connectGenome[i].innovationNum == other.connectGenome[j].innovationNum:
                 sameGenei.append(i)
                 sameGenej.append(j)
                 i += 1
@@ -55,20 +56,20 @@ class Genotype():
             else:
                 
                 D +=1                
-                if self.genome[i].innovationNum < other.genome[j].innovationNum:
+                if self.connectGenome[i].innovationNum < other.connectGenome[j].innovationNum:
                     i += 1
                 else:
                     j += 1
         #Excess from other, ends loop
-        if i == len(self.genome):
-                    E = len(other.genome) - i
+        if i == len(self.connectGenome):
+                    E = len(other.connectGenome) - i
         #Excess from self, ends loop
-        elif j == len(other.genome):
-                    E = len(self.genome) - j
+        elif j == len(other.connectGenome):
+                    E = len(self.connectGenome) - j
         #weight differences
         weightSum = 0
         for index in range(len(sameGenei)):
-            weightSum += abs(self.genome[sameGenei[index]].weight - other.genome[sameGenej[index]].weight)
+            weightSum += abs(self.connectGenome[sameGenei[index]].weight - other.connectGenome[sameGenej[index]].weight)
         if len(sameGenei) == 0:
             W = 0
         else:

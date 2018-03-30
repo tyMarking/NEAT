@@ -25,10 +25,11 @@ def runGeneration(population, c1,c2,c3,compatabilityThreshold, fitnessFunction, 
     #Seperate into Species
     #NEED TO TEST
     species = []
-    species.append[population[0]]
+    print(population)
+    species.append([population[0]])
     for geno in population[1:]:
         for speci in species:
-            delta = geno.compatabilityDistance(random.choic(speci))
+            delta = geno.compatabilityDistance(random.choice(speci), c1,c2,c3)
             if delta < compatabilityThreshold:
                 speci.append(geno)
                 break
@@ -38,8 +39,8 @@ def runGeneration(population, c1,c2,c3,compatabilityThreshold, fitnessFunction, 
             
     speciesWEval = []
     for speci in species:
-        speci = []
+        speciVal = []
         for geno in speci:
-            speci.append((geno, fitnessFunction(geno)))
+            speciVal.append((geno, fitnessFunction(geno)))
         speciesWEval.append(speci)
     

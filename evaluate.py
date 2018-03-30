@@ -17,64 +17,45 @@ solvedNodes = {}
 
 
 """
-test set = [(in, out),(in, out)...]
+test set = [a1,a2,a3...]
 """
-import gene
-import genotype as Genotype
-def evaluate(genotype, testSet):
-    genome = genotype.genome
-    
-    #How determine end nodes??
-    #for now:
-    endNodeNums = [4]
-    
-    correct = 0
-    
-    for test in testSet:
-        solvedNodes = {}
-        
-        #assuming input nodes are 1 to # of inputs
-        for i in test[0]:
-            solvedNodes[i] = test[0][i-1]
-        
-        outputs = []
-        for num in endNodeNums:
-            outputs.append(solveNode(genome, test[0], num))
-        
-        #get max output
-        maxi = 0
-        for i in range(1, len(outputs)):
-            if outputs[i] > outputs[maxi]:
-                maxi = i
-                
-        if maxi == testSet[0]:
-            correct += 1
+def evaluate(genotype, inputs):
+    solvedNodes.clear()
+    genome = genotype.connectGenome
+    nodeGenome = genotype.nodeGenome
 
-    return (correct/len(testSet))
+    #initial nodes
+    for node in nodeGenome:
+        if node.sensor:
+            solvedNodes[node.nodeNum] = inputs[node.nodeNum - 1]
+    
+    outputs = []
+    for node in nodeGenome:
+        if node.output:
+            outputs.append(solveNode(genome, inputs, node.nodeNum))
+    
+    return (outputs)
 
-
+#to prevent loops by not solving for node already solving for
+solvingFor = []
 #using solvedNodes for dynamic programming
 def solveNode(genome, inputs, nodeNum):
-    
+    #check if already solved
     if nodeNum in solvedNodes:
         return solvedNodes[nodeNum]
+    #prevent loops
+    if nodeNum in solvingFor:
+        return 0
+    else:
+        solvingFor.append(nodeNum)
+    
+    #evaluate
     val = 0
     for geno in genome:
         if geno.outNode == nodeNum:
             val += geno.weight * solveNode(genome, inputs, geno.inNode)
     solvedNodes[nodeNum] = val
+    solvingFor.pop()
     return val
             
 
-testSet = [((1,2,3),3)]
-genome = []
-
-genome.append(gene.Gene(1, 4, 1.0, True, 1))
-genome.append(gene.Gene(2, 4, 0.5, True, 2))
-genome.append(gene.Gene(3, 4, 2, True, 3))
-#    genome.append(gene.Gene(1, 5, 1.0, True, 4))
-#    genome.append(gene.Gene(2, 5, 0.5, True, 5))
-#    genome.append(gene.Gene(3, 5, 0.5, True, 6))
-#    genome.append(gene.Gene(4, 6, 1.0, True, 7))
-
-print(evaluate(Genotype.Genotype(genome), testSet))
