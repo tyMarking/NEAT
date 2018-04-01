@@ -4,14 +4,22 @@ Created on Fri Mar 30 10:09:59 2018
 
 @author: 136029
 """
-import gene, genotype, evaluate, genetics, evaluate
+import gene, genotype, evaluate, genetics, crossoverFunctions
 
 
 def main():
 #    evalTest()
-    generationTest()
+#    generationTest()
+    crossoverTest()
 
-
+def crossoverTest():
+    result = daveAndJane()
+    dave = result[0]
+    jane = result[1]
+    
+    pal = (crossoverFunctions.crossover((dave, 0),(jane, 1)))
+    print(pal.connectGenome)
+    print(pal.nodeGenome)
 
 def generationTest():
     result = daveAndJane()
@@ -82,6 +90,7 @@ def daveAndJane():
     cGenome2.append(gene.ConnectGene(5, 4, 1, True, 6))
     cGenome2.append(gene.ConnectGene(3, 5, 1, True, 7))
     cGenome2.append(gene.ConnectGene(4, 5, 1, True, 8))
+    cGenome2.append(gene.ConnectGene(4, 5, 2, False, 9))
     
     jane = genotype.Genotype(cGenome2, nGenome2)
     
