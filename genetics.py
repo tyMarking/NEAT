@@ -16,6 +16,7 @@ Main Loop:
 
 import random
 innovationNumber = 0
+nodeNumber = 0
 """
 speceis = [1,2,5,etc]
 """
@@ -77,4 +78,5 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
         unmutedPop.append(mateFunc(speci, newNum))
     
     #mutating
+    
     

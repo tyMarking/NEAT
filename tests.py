@@ -117,5 +117,6 @@ def daveAndJane():
     jane = genotype.Genotype(cGenome2, nGenome2)
     
     genetics.innovationNumber = 9
+    genetics.nodeNumber = 5
     return (dave, jane)
 main()
