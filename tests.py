@@ -4,15 +4,37 @@ Created on Fri Mar 30 10:09:59 2018
 
 @author: 136029
 """
-import gene, genotype, evaluate, genetics, crossoverFunctions
+import gene, genotype, evaluate, genetics, crossoverFunctions, fitnessFunctions, matingFunctions
 
 
 def main():
 #    evalTest()
 #    generationTest()
-    crossoverTest()
+#    crossoverTest()
+#    fitnessTest()
+    geneticsTest()
+def geneticsTest():
+    result = daveAndJane()
+    dave = result[0]
+    jane = result[1]
+    sue = dave
+    testSet = [([1,2,4], [17]), ([1,2,3], [11])]
+    fitFunc = lambda x: fitnessFunctions.fitnessFromSet(x, testSet, evaluate.evaluate)
+    mateFunc = lambda speci, newNum : matingFunctions.mateTopR(speci, 25, newNum, crossoverFunctions.crossover)
+    genetics.runGeneration([dave,jane,sue], 1, 1, 3, 0.1, fitFunc, mateFunc)
+    
+    
+def fitnessTest():
+    result = daveAndJane()
+    dave = result[0]
+#    jane = result[1]
+    print(evaluate.evaluate(dave, [1,2,3]))
+    print(evaluate.evaluate(dave, [1,2,4]))
+    testSet = [([1,2,4], [17]), ([1,2,3], [11])]
+    print(fitnessFunctions.fitnessFromSet(dave, testSet, evaluate.evaluate))
 
 def crossoverTest():
+    #Need to do better tests
     result = daveAndJane()
     dave = result[0]
     jane = result[1]
@@ -94,5 +116,6 @@ def daveAndJane():
     
     jane = genotype.Genotype(cGenome2, nGenome2)
     
+    genetics.innovationNumber = 9
     return (dave, jane)
 main()
