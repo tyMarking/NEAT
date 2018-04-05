@@ -31,10 +31,10 @@ def crossover ( genoFit1, genoFit2):
                 j += 1
                 newNodeGenome.append(geno2.NodeGenome[j])
     #excess from 2
-    if i == len(geno1.nodeGenome):
+    if i == len(geno1.nodeGenome) and j != len(geno2.nodeGenome):
         newNodeGenome.append(geno2.nodeGenome[j:])
     #Excess from 1
-    elif j == len(geno2.nodeGenome):
+    elif j == len(geno2.nodeGenome) and i != len(geno1.nodeGenome):
         newNodeGenome.append(geno1.nodeGenome[i:])
         
         
@@ -61,10 +61,10 @@ def crossover ( genoFit1, genoFit2):
                 if fit2 >= fit1:
                     newConnectGenome.append(geno2.connectGenome[j])
     #Excess from 2
-    if i == len(geno1.connectGenome) and fit2 >= fit1:
+    if i == len(geno1.connectGenome) and j != len(geno2.connectGenome) and fit2 >= fit1:
         newConnectGenome.append(geno2.connectGenome[j:])
     #Excess from 1
-    elif j == len(geno2.connectGenome) and fit1 >= fit2:
+    elif j == len(geno2.connectGenome) and i != len(geno1.connectGenome) and fit1 >= fit2:
         newConnectGenome.append(geno1.connectGenome[i:])
         
         

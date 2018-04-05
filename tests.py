@@ -4,7 +4,7 @@ Created on Fri Mar 30 10:09:59 2018
 
 @author: 136029
 """
-import gene, genotype, evaluate, genetics, crossoverFunctions, fitnessFunctions, matingFunctions
+import gene, genotype, evaluate, genetics, crossoverFunctions, fitnessFunctions, matingFunctions, mutationFunctions
 
 
 def main():
@@ -21,7 +21,8 @@ def geneticsTest():
     testSet = [([1,2,4], [17]), ([1,2,3], [11])]
     fitFunc = lambda x: fitnessFunctions.fitnessFromSet(x, testSet, evaluate.evaluate)
     mateFunc = lambda speci, newNum : matingFunctions.mateTopR(speci, 25, newNum, crossoverFunctions.crossover)
-    genetics.runGeneration([dave,jane,sue], 1, 1, 3, 0.1, fitFunc, mateFunc)
+    muteFunc = lambda geno: mutationFunctions.standardMutate(geno, 0.3, 0.1, 0.03)
+    genetics.runGeneration([dave,jane,sue], 1, 1, 3, 0.1, fitFunc, mateFunc, muteFunc)
     
     
 def fitnessTest():
