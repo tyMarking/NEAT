@@ -9,8 +9,9 @@ class ConnectGene():
     inNode = 0
     outNode = 0
     weight = 0
-    innovationNum = 0
     enabled = False
+    innovationNum = 0
+    
     def __init__(self, inNode, outNode, weight, enabled, innovationNum):
         self.inNode = inNode
         self.outNode = outNode

@@ -19,10 +19,13 @@ IDEAS:
     
 """
 
-import gzip
+import gzip, json
 import random
 import copy
 import fitnessFunctions, evaluate, matingFunctions, crossoverFunctions, mutationFunctions, genetics, gene, genotype
+
+file1 = "FirstNEATv1.json"
+
 
 def main():
     #stuff
@@ -35,44 +38,21 @@ def main():
 #    genetics.runGeneration([/pop/], 1, 1, 3, 0.1, fitFunc, mateFunc, muteFunc)
 
 
-    #created blank pop
-    pop = []
-    cGenome = []
-    nGenome = []
-    
-    #input nodes
-    genetics.innovationNumber = 0
-    genetics.nodeNumber = 0
-    for j in range(784):
-        genetics.nodeNumber += 1
-        nGenome.append(gene.NodeGene(genetics.nodeNumber, True, False))
-        for k in range(10):
-            genetics.innovationNumber += 1
-            cGenome.append(gene.ConnectGene(genetics.nodeNumber, 785+k, random.gauss(0,1), True, genetics.innovationNumber))
-    #output nodes
-    for k in range(10):
-        genetics.nodeNumber += 1
-        nGenome.append(gene.NodeGene(genetics.nodeNumber, False, True))
-
-    
-    baseGeno = genotype.Genotype(cGenome, nGenome)
-    for i in range(50):
-        print(i)
-        pop.append(copy.deepcopy(baseGeno))
-        
-        
+#    pop = newPop(50)
+    pop = loadFromFile(file1)
+    saveToFile(pop, file1)
 
 #    currentError = 1
     while True:
         
-#        n = random.randint(0, 5899)
+        n = random.randint(0, 5899)
         n = 100
         trainSet = trainData[n:n+100]
         fitFunc = lambda x: fitnessFunctions.MNISTFitnessFromSet(x, trainSet, evaluate.evaluate)
-        nextPop, maxFit = genetics.runGeneration(pop, 1, 1, 3,2, fitFunc, mateFunc, muteFunc)
+        nextPop, maxFit = genetics.runGeneration(pop, 1, 1, 3,4, fitFunc, mateFunc, muteFunc)
         print("Maximum Fitness: " + str(maxFit))
         pop = nextPop
-
+        saveToFile(pop, file1)
 
 
 
@@ -127,27 +107,77 @@ print("Finished reading MNIST data")
 print("Finished reading MNIST data")
 
 #Helper functions
-"""
-def saveToFile(net, file):
 
+def newPop(size):
+    #created blank pop
+    pop = []
+    cGenome = []
+    nGenome = []
+    
+    #input nodes
+    genetics.innovationNumber = 0
+    genetics.nodeNumber = 0
+    for j in range(784):
+        genetics.nodeNumber += 1
+        nGenome.append(gene.NodeGene(genetics.nodeNumber, True, False))
+        for k in range(10):
+            genetics.innovationNumber += 1
+            cGenome.append(gene.ConnectGene(genetics.nodeNumber, 785+k, random.gauss(0,1), True, genetics.innovationNumber))
+    #output nodes
+    for k in range(10):
+        genetics.nodeNumber += 1
+        nGenome.append(gene.NodeGene(genetics.nodeNumber, False, True))
+
+    
+    baseGeno = genotype.Genotype(cGenome, nGenome)
+    for i in range(size):
+        print(i)
+        pop.append(copy.deepcopy(baseGeno))
+         
+
+def saveToFile(pop, file):
+    """
     netList = []
     for layer in net:
         netList.append((layer[0].tolist(),layer[1].tolist()))
-    netJson = json.dumps(netList)
+        """
+    popList = []
+    for geno in pop:
+        connectGList = []
+        nodeGList = []
+        for connectGene in geno.connectGenome:
+            #inNode, outNode, weight, enabled, innovationNum
+            connectGList.append((connectGene.inNode, connectGene.outNode, connectGene.weight, connectGene.enabled, connectGene.innovationNum))
+        for nodeGene in geno.nodeGenome:
+            #nodeNum, sensor, output
+            nodeGList.append((nodeGene.nodeNum, nodeGene.sensor, nodeGene.output))
+        popList.append( (connectGList, nodeGList) )
+    popJson = json.dumps(popList)
     file = open(file, "w")
     file.truncate(0)
-    file.write(netJson)
+    file.write(popJson)
 
 def loadFromFile(file):
 
     file = open(file, "r")
-    netJson = file.read()
-    netList = json.loads(netJson)
-    matrixList = []
+    popJson = file.read()
+    popList = json.loads(popJson)
+    pop = []
+    for genoList in popList:
+        connectGenome = []
+        nodeGenome = []
+        for cGT in genoList[0]:
+            connectGenome.append(gene.ConnectGene(cGT[0],cGT[1],cGT[2],cGT[3],cGT[4]))
+        for nGT in genoList[1]:
+            nodeGenome.append(gene.NodeGene(nGT[0],nGT[1],nGT[2]))
+        pop.append(genotype.Genotype(connectGenome, nodeGenome))
+    return pop
+    
+    """matrixList = []
     for layer in netList:
         matrixList.append((np.matrix(layer[0]),np.matrix(layer[1])))
-    return matrixList
-"""
+    return matrixList"""
+
 
 
 

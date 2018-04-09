@@ -92,7 +92,10 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
         adjSum = 0
         for genoFPair in speci:
             adjSum += genoFPair[1]
-        newNum = int(math.ceil(adjSum/meanF))
+        if len(population) < 50:
+            newNum = int(math.ceil(adjSum/meanF))
+        else:
+            newNum = int(math.floor(adjSum/meanF))
         unmutedPop.append(mateFunction(speci, newNum))
     
     #mutating
