@@ -14,7 +14,7 @@ Main Loop:
 
 """
 
-import random
+import random, math
 innovationNumber = 0
 nodeNumber = 0
 """
@@ -22,7 +22,7 @@ speceis = [1,2,5,etc]
 """
 def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction, mateFunction, muteFunction):
    
-    print("Running Generation")
+#    print("Running Generation")
     #Seperate into Species
     #NEED TO TEST
     species = []
@@ -52,10 +52,18 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
             speciVal.append((geno, fitness))
             if fitness > maxFit:
                 maxFit = fitness
+                """
+            if fitness != 0.13:
+                for i in range(10):
+                    print("LOOOOOOOOK ITS NOT 13")
+            if len(geno.connectGenome) != 10 or len(geno.nodeGenome) != 11:
+                for i in range(10):
+                    print("LOOOOOOOOK STRUCTURE MUTATION")
+                    """
         speciesWEval.append(speciVal)
     
     
-#    print("MaxFit inside gen: " + str(maxFit))
+    print("MaxFit inside gen: " + str(maxFit))
     
     
     #Grwoth/decline of species
@@ -84,7 +92,7 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
         adjSum = 0
         for genoFPair in speci:
             adjSum += genoFPair[1]
-        newNum = int(adjSum/meanF)
+        newNum = int(math.ceil(adjSum/meanF))
         unmutedPop.append(mateFunction(speci, newNum))
     
     #mutating

@@ -23,7 +23,8 @@ def standardMutate(genotype, weightProb, connectionProb, nodeProb):
     if random.random() < connectionProb:
         node = random.choice(nodes)
         genetics.innovationNumber += 1
-        connections.append(Gene.ConnectGene(node.nodeNum, random.choice(nodes).nodeNum, random.gauss(0, 2), True, genetics.innovationNumber))
+        newGene = Gene.ConnectGene(node.nodeNum, random.choice(nodes).nodeNum, random.gauss(0, 2), True, genetics.innovationNumber)
+        connections.append(newGene)
             
     #new node
     if random.random() < nodeProb:

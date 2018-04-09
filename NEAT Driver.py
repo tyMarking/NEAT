@@ -41,17 +41,23 @@ def main():
     nGenome = []
     
     #input nodes
-    for j in range(10):
-        nGenome.append(gene.NodeGene(j+1, True, False))
-        cGenome.append(gene.ConnectGene(j+1, 11, random.gauss(0,1), True, j+1))
+    genetics.innovationNumber = 0
+    genetics.nodeNumber = 0
+    for j in range(784):
+        genetics.nodeNumber += 1
+        nGenome.append(gene.NodeGene(genetics.nodeNumber, True, False))
+        for k in range(10):
+            genetics.innovationNumber += 1
+            cGenome.append(gene.ConnectGene(genetics.nodeNumber, 785+k, random.gauss(0,1), True, genetics.innovationNumber))
     #output nodes
-    nGenome.append(gene.NodeGene(11, False, True))
-    
-    genetics.innovationNumber = 10
-    genetics.nodeNumber = 11
+    for k in range(10):
+        genetics.nodeNumber += 1
+        nGenome.append(gene.NodeGene(genetics.nodeNumber, False, True))
+
     
     baseGeno = genotype.Genotype(cGenome, nGenome)
-    for i in range(1000):
+    for i in range(50):
+        print(i)
         pop.append(copy.deepcopy(baseGeno))
         
         
@@ -60,11 +66,12 @@ def main():
     while True:
         
 #        n = random.randint(0, 5899)
-        n = 0
+        n = 100
         trainSet = trainData[n:n+100]
-        fitFunc = lambda x: fitnessFunctions.fitnessFromSet(x, trainSet, evaluate.evaluate)
-        nextPop, maxFit = genetics.runGeneration(pop, 1, 1, 3, 4, fitFunc, mateFunc, muteFunc)
+        fitFunc = lambda x: fitnessFunctions.MNISTFitnessFromSet(x, trainSet, evaluate.evaluate)
+        nextPop, maxFit = genetics.runGeneration(pop, 1, 1, 3,2, fitFunc, mateFunc, muteFunc)
         print("Maximum Fitness: " + str(maxFit))
+        pop = nextPop
 
 
 
@@ -91,7 +98,7 @@ trainLabels.read(8)
 trainData = []
 
 #should be 60000
-for i in range(200):
+for i in range(500):
     image = []
     for pixle in trainImages.read(784):
         image.append(pixle/255)
