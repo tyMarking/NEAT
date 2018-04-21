@@ -5,14 +5,24 @@ Created on Fri Mar 30 10:09:59 2018
 @author: 136029
 """
 import gene, genotype, evaluate, genetics, crossoverFunctions, fitnessFunctions, matingFunctions, mutationFunctions
-
+import visualize
 
 def main():
 #    evalTest()
 #    generationTest()
 #    crossoverTest()
 #    fitnessTest()
-    geneticsTest()
+#    geneticsTest()
+    vizTest()
+    
+def vizTest():
+    result = daveAndJane()
+    dave = result[0]
+    print(dave.nodeGenome)
+    jane = result[1]
+#    visualize.viz(dave)
+    visualize.viz(jane)
+    
 def geneticsTest():
     result = daveAndJane()
     dave = result[0]
@@ -103,6 +113,7 @@ def daveAndJane():
     
     #hidden nodes
     nGenome2.append(gene.NodeGene(5, False, False))
+    nGenome2.append(gene.NodeGene(6, False, False))
     
     #connections
     cGenome2.append(gene.ConnectGene(1, 4, 1.0, True, 1))
@@ -114,6 +125,9 @@ def daveAndJane():
     cGenome2.append(gene.ConnectGene(3, 5, 1, True, 7))
     cGenome2.append(gene.ConnectGene(4, 5, 1, True, 8))
     cGenome2.append(gene.ConnectGene(4, 5, 2, False, 9))
+    cGenome2.append(gene.ConnectGene(1, 6, 2, True, 10))
+    cGenome2.append(gene.ConnectGene(2, 6, 2, True, 11))
+    cGenome2.append(gene.ConnectGene(6, 4, 2, True, 12))
     
     jane = genotype.Genotype(cGenome2, nGenome2)
     
