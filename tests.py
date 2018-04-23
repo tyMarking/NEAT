@@ -93,10 +93,10 @@ def daveAndJane():
     #connections
     cGenome1.append(gene.ConnectGene(1, 4, 1.0, True, 1))
     cGenome1.append(gene.ConnectGene(2, 4, 0.5, True, 2))
-    cGenome1.append(gene.ConnectGene(3, 4, 2, True, 3))
+    cGenome1.append(gene.ConnectGene(3, 4, -2, True, 3))
     cGenome1.append(gene.ConnectGene(1, 5, 1, True, 4))
     cGenome1.append(gene.ConnectGene(2, 5, 1, True, 5))
-    cGenome1.append(gene.ConnectGene(5, 4, 1, True, 6))
+    cGenome1.append(gene.ConnectGene(5, 4, -1, True, 6))
     
     
     dave = genotype.Genotype(cGenome1, nGenome1)
@@ -121,14 +121,14 @@ def daveAndJane():
     cGenome2.append(gene.ConnectGene(2, 4, 0.5, True, 2))
     cGenome2.append(gene.ConnectGene(3, 4, 2, True, 3))
     cGenome2.append(gene.ConnectGene(1, 5, 1, True, 4))
-    cGenome2.append(gene.ConnectGene(2, 5, 1, True, 5))
-    cGenome2.append(gene.ConnectGene(5, 4, 1, True, 6))
-    cGenome2.append(gene.ConnectGene(3, 5, 1, True, 7))
-    cGenome2.append(gene.ConnectGene(4, 5, 1, True, 8))
+    cGenome2.append(gene.ConnectGene(2, 5, -1, True, 5))
+    cGenome2.append(gene.ConnectGene(5, 4, 1.6, True, 6))
+    cGenome2.append(gene.ConnectGene(3, 5, .9, True, 7))
+    cGenome2.append(gene.ConnectGene(4, 5, -7, True, 8))
     cGenome2.append(gene.ConnectGene(4, 5, 2, False, 9))
-    cGenome2.append(gene.ConnectGene(1, 6, 2, True, 10))
+    cGenome2.append(gene.ConnectGene(1, 6, -2, True, 10))
     cGenome2.append(gene.ConnectGene(2, 6, 2, True, 11))
-    cGenome2.append(gene.ConnectGene(6, 4, 2, True, 12))
+    cGenome2.append(gene.ConnectGene(6, 4, 2.3, True, 12))
     
     jane = genotype.Genotype(cGenome2, nGenome2)
     

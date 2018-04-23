@@ -5,6 +5,8 @@ Created on Fri Apr 20 13:31:28 2018
 
 @author: tymarking
 """
+import graphics as g
+
 #layers = []
 solvingFor = []
 def viz(genome):
@@ -24,6 +26,50 @@ def viz(genome):
         i += 1
     
     print(layers)
+    drawLayers(layers, genome)
+    
+    
+def drawLayers(layers, genome):
+    width = 1000
+    height = 1000
+    win = g.GraphWin("Viz",width, height)
+    xD = (width-100)/(len(layers)-1)
+    currentX = 50
+    nodePos = {}
+    for layer in layers:
+        if len(layer) == 1:
+            nodeC = g.Circle(g.Point(currentX, height/2),10)  
+            nodePos[layer[0]] = (currentX, height/2)
+            nodeC.setFill("black")
+            nodeC.draw(win)
+        else:    
+            yD = (height-100)/(len(layer)-1)
+            currentY = 50
+            for node in layer:
+                nodeC = g.Circle(g.Point(currentX, currentY),10)    
+                nodePos[node] = (currentX, currentY)
+                nodeC.setFill("black")
+                nodeC.draw(win)
+                currentY += yD
+        
+        currentX += xD
+        
+    for connection in genome.connectGenome:
+        inPos = nodePos[connection.inNode]
+        outPos = nodePos[connection.outNode]
+        
+        cLine = g.Line(g.Point(inPos[0],inPos[1]), g.Point(outPos[0], outPos[1]))
+        cLine.setWidth(abs(connection.weight * 2)+0.01)
+        if connection.weight > 0:
+            cLine.setFill("blue")
+        elif connection.weight < 0:
+            cLine.setFill("red")
+        cLine.draw(win)
+        
+       
+    print("spacer")
+    win.getMouse()
+    win.close()
     
 #for dynamic programing use
 solvedNodes = {}

@@ -28,6 +28,9 @@ def standardMutate(genotype, weightProb, connectionProb, nodeProb):
             
     #new node
     if random.random() < nodeProb:
+        
+        print("len of nodes before: " + str(len(nodes)))
+        print("ADDED NEW NODE")
         connection = random.choice(connections)
         connection.enabled = False
         genetics.nodeNumber += 1
@@ -36,4 +39,5 @@ def standardMutate(genotype, weightProb, connectionProb, nodeProb):
         connections.append(Gene.ConnectGene(connection.inNode, genetics.nodeNumber, connection.weight, True, genetics.innovationNumber))
         genetics.innovationNumber += 1
         connections.append(Gene.ConnectGene(genetics.nodeNumber, connection.outNode, 1, True, genetics.innovationNumber))
+        print("len of nodes after: " + str(len(nodes)))
     return Genotype.Genotype(connections, nodes)

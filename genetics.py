@@ -14,7 +14,7 @@ Main Loop:
 
 """
 
-import random, math
+import random, math, visualize
 innovationNumber = 0
 nodeNumber = 0
 """
@@ -42,6 +42,8 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
     #Evaluation
     #getting max fitness for return
     maxFit = 0
+    maxGeno = species[0][0]
+    longGeno = species[0][0]
     #speciesWEval = [[(geno, fitness), (g, f)],[spec2],[spec3]...]
     speciesWEval = []
     for speci in species:
@@ -52,6 +54,9 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
             speciVal.append((geno, fitness))
             if fitness > maxFit:
                 maxFit = fitness
+                maxGeno = geno
+            if len(geno.nodeGenome) > len(longGeno.nodeGenome):
+                longGeno = geno
                 """
             if fitness != 0.13:
                 for i in range(10):
@@ -61,7 +66,8 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
                     print("LOOOOOOOOK STRUCTURE MUTATION")
                     """
         speciesWEval.append(speciVal)
-    
+#    visualize.viz(maxGeno)
+    visualize.viz(longGeno)
     
     print("MaxFit inside gen: " + str(maxFit))
     

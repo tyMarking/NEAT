@@ -5,13 +5,9 @@ Created on Mon Mar 26 10:27:10 2018
 @author: Ty Marking
 
 
-IDEAS:
-    Main Loop:
-        new batch
-        seperate into species
-        eval fitness
-        determine grwoth/decline of species
-        crossover
+TODO:
+    non-linear rectification fucntion (sigmoid probably)
+    fix specieastion from killing new structures
         
     
     
@@ -25,11 +21,11 @@ import copy
 import fitnessFunctions, evaluate, matingFunctions, crossoverFunctions, mutationFunctions, genetics, gene, genotype
 
 file1 = "FirstNEATv1.json"
+file2 = "FirstNEATv2.json"
 
 
 def main():
     #stuff
-    print("Main TODO")
 #    n = random.randint(0, 5899)
 #    trainSet = trainData[n:n+100]
 #    fitFunc = lambda x: fitnessFunctions.fitnessFromSet(x, trainSet, evaluate.evaluate)
@@ -39,8 +35,9 @@ def main():
 
 
 #    pop = newPop(50)
-    pop = loadFromFile(file1)
-    saveToFile(pop, file1)
+#    print(pop)
+    pop = loadFromFile(file2)
+    saveToFile(pop, file2)
 
 #    currentError = 1
     while True:
@@ -52,7 +49,7 @@ def main():
         nextPop, maxFit = genetics.runGeneration(pop, 1, 1, 3,4, fitFunc, mateFunc, muteFunc)
         print("Maximum Fitness: " + str(maxFit))
         pop = nextPop
-        saveToFile(pop, file1)
+        saveToFile(pop, file2)
 
 
 
@@ -133,7 +130,7 @@ def newPop(size):
     for i in range(size):
         print(i)
         pop.append(copy.deepcopy(baseGeno))
-         
+    return pop
 
 def saveToFile(pop, file):
     """
