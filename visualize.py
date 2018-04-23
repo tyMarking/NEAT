@@ -9,88 +9,26 @@ Created on Fri Apr 20 13:31:28 2018
 solvingFor = []
 def viz(genome):
     layers = []
-    inNodes = []
-    outNodes = []
+    for i in range(len(genome.nodeGenome)):
+        layers.append([])
+    layerDict = layerEval(genome)
+    #key = nodenum
+    for key in layerDict:
+        layer = layerDict[key]
+        layers[layer].append(key)
+    i = 0
+    while i < len(layers):
+        if layers[i] == []:
+            del layers[i]
+            i -= 1
+        i += 1
     
-    for node in genome.nodeGenome:
-        if node.sensor:
-            inNodes.append(node)
-        if node.output:
-            outNodes.append(node)
-    
-    layers.append(inNodes)
-    for node in genome.nodeGenome:
-        solvingFor = []
-        solveRec(node, genome, layers)
-        
-        
-    #now have layers done?
     print(layers)
-
-def solveRec(node, genome, layers):
-    print(node.nodeNum)
-    print(len(layers))
     
-    
-    if node in solvingFor:
-        return
-    toDo = True
-    for layer in layers:
-        if node in layer:
-            toDo = False
-    if node in solvingFor:
-        toDo = False
-    if toDo:
-        solvingFor.append(node)
-        reqs = []
-        for connection in genome.connectGenome:
-            
+#for dynamic programing use
+solvedNodes = {}
 
-            if connection.outNode == node.nodeNum:
-                reqs.append(connection.inNode)
-            
-        reqNodes = []
-        for i in range(len(layers)):
-            for lNode in layers[i]:
-                if lNode.nodeNum in reqs:
-                    reqNodes.append(lNode)
-        
-        minNeededLayer = 0
-        for rNode in reqNodes:
-            isLayered = False
-            for i in range(len(layers)):
-                isThere = False
-                for layer in layers:
-                    for iNode in layer:
-                        if iNode.nodeNum == rNode.nodeNum:
-                            isThere = True
-                            break
-                        
-                if isThere:
-                    if i > minNeededLayer:
-                        minNeededLayer = i
-                        isLayered = True
-                        break
-            if not isLayered:
-                    solveRec(rNode, genome, layers)
-            for i in range(len(layers)):
-#                if node in layers[i]:
-                for iNode in layers[i]:
-                        if iNode.nodeNum == rNode.nodeNum:
-                            if i > minNeededLayer:
-                                minNeededLayer = i
-                                break
-                    
-        #now should have minNeededLayer
-        if minNeededLayer+1 >= len(layers):
-            layers.append([node])
-        else:
-            layers[minNeededLayer+1].append(node)
-        solvingFor.pop()
-        return
-
-    """
-    def evaluate(genotype, inputs):
+def layerEval(genotype):
     solvedNodes.clear()
     genome = genotype.connectGenome
     nodeGenome = genotype.nodeGenome
@@ -98,19 +36,19 @@ def solveRec(node, genome, layers):
     #initial nodes
     for node in nodeGenome:
         if node.sensor:
-            solvedNodes[node.nodeNum] = inputs[node.nodeNum - 1]
+            solvedNodes[node.nodeNum] = 0
     
-    outputs = []
+#    outputs = []
     for node in nodeGenome:
         if node.output:
-            outputs.append(solveNode(genome, inputs, node.nodeNum))
+            solveNode(genome, node.nodeNum)
     
-    return (outputs)
+    return (solvedNodes)
 
 #to prevent loops by not solving for node already solving for
 solvingFor = []
 #using solvedNodes for dynamic programming
-def solveNode(genome, inputs, nodeNum):
+def solveNode(genome, nodeNum):
     #check if already solved
     if nodeNum in solvedNodes:
         return solvedNodes[nodeNum]
@@ -121,13 +59,15 @@ def solveNode(genome, inputs, nodeNum):
         solvingFor.append(nodeNum)
     
     #evaluate
-    val = 0
+    minLayer = 0
     for geno in genome:
         if geno.outNode == nodeNum:
-            val += geno.weight * solveNode(genome, inputs, geno.inNode)
-    solvedNodes[nodeNum] = val
+            x = solveNode(genome, geno.inNode)
+            if minLayer < x:
+                minLayer = x
+    solvedNodes[nodeNum] = minLayer + 1
     solvingFor.pop()
-    return val
-    """
+    return minLayer + 1
+    
     
     

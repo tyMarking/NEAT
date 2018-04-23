@@ -17,9 +17,10 @@ def main():
     
 def vizTest():
     result = daveAndJane()
-    dave = result[0]
-    print(dave.nodeGenome)
+#    dave = result[0]
+#    print(dave.nodeGenome)
     jane = result[1]
+
 #    visualize.viz(dave)
     visualize.viz(jane)
     
