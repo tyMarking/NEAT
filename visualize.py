@@ -11,13 +11,21 @@ import graphics as g
 solvingFor = []
 def viz(genome):
     layers = []
+    outputNums = []
     for i in range(len(genome.nodeGenome)):
         layers.append([])
+        if genome.nodeGenome[i].output:
+            outputNums.append(genome.nodeGenome[i].nodeNum)
     layerDict = layerEval(genome)
+    
+    
     #key = nodenum
     for key in layerDict:
         layer = layerDict[key]
-        layers[layer].append(key)
+        if key in outputNums:
+            layers[-1].append(key)
+        else:
+            layers[layer].append(key)
     i = 0
     while i < len(layers):
         if layers[i] == []:
@@ -30,8 +38,8 @@ def viz(genome):
     
     
 def drawLayers(layers, genome):
-    width = 1000
-    height = 1000
+    width = 800
+    height = 800
     win = g.GraphWin("Viz",width, height)
     xD = (width-100)/(len(layers)-1)
     currentX = 50
@@ -55,16 +63,17 @@ def drawLayers(layers, genome):
         currentX += xD
         
     for connection in genome.connectGenome:
-        inPos = nodePos[connection.inNode]
-        outPos = nodePos[connection.outNode]
-        
-        cLine = g.Line(g.Point(inPos[0],inPos[1]), g.Point(outPos[0], outPos[1]))
-        cLine.setWidth(abs(connection.weight * 2)+0.01)
-        if connection.weight > 0:
-            cLine.setFill("blue")
-        elif connection.weight < 0:
-            cLine.setFill("red")
-        cLine.draw(win)
+        if connection.inNode > 794 or connection.outNode > 794:
+            inPos = nodePos[connection.inNode]
+            outPos = nodePos[connection.outNode]
+            
+            cLine = g.Line(g.Point(inPos[0],inPos[1]), g.Point(outPos[0], outPos[1]))
+            cLine.setWidth(abs(connection.weight * 2)+0.01)
+            if connection.weight > 0:
+                cLine.setFill("blue")
+            elif connection.weight < 0:
+                cLine.setFill("red")
+            cLine.draw(win)
         
        
     print("spacer")
@@ -98,6 +107,7 @@ def solveNode(genome, nodeNum):
     #check if already solved
     if nodeNum in solvedNodes:
         return solvedNodes[nodeNum]
+    
     #prevent loops
     if nodeNum in solvingFor:
         return 0

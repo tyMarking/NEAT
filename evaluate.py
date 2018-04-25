@@ -12,6 +12,11 @@ or start from begining and keep lookping through each layer?
 what about loops?
 
 """
+import math
+
+def sigmoid(x):
+  return 1 / (1 + math.exp(-x))
+
 #for dynamic programing use
 solvedNodes = {}
 
@@ -54,7 +59,7 @@ def solveNode(genome, inputs, nodeNum):
     for geno in genome:
         if geno.outNode == nodeNum:
             val += geno.weight * solveNode(genome, inputs, geno.inNode)
-    solvedNodes[nodeNum] = val
+    solvedNodes[nodeNum] = sigmoid(val)
     solvingFor.pop()
     return val
             

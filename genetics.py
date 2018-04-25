@@ -45,6 +45,7 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
     maxGeno = species[0][0]
     longGeno = species[0][0]
     #speciesWEval = [[(geno, fitness), (g, f)],[spec2],[spec3]...]
+    print("Starting Evaluation")
     speciesWEval = []
     for speci in species:
         speciVal = []
@@ -66,7 +67,8 @@ def runGeneration(population, c1,c2,c3, compatabilityThreshold, fitnessFunction,
                     print("LOOOOOOOOK STRUCTURE MUTATION")
                     """
         speciesWEval.append(speciVal)
-#    visualize.viz(maxGeno)
+    print("Finished Evaluation")
+    visualize.viz(maxGeno)
     visualize.viz(longGeno)
     
     print("MaxFit inside gen: " + str(maxFit))

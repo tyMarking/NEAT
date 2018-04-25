@@ -22,34 +22,37 @@ import fitnessFunctions, evaluate, matingFunctions, crossoverFunctions, mutation
 
 file1 = "FirstNEATv1.json"
 file2 = "FirstNEATv2.json"
+fileNum = 4
+fileC = "FirstNEATv"+str(fileNum)+".json"
 
-
+file = fileC
 def main():
+    
     #stuff
 #    n = random.randint(0, 5899)
 #    trainSet = trainData[n:n+100]
 #    fitFunc = lambda x: fitnessFunctions.fitnessFromSet(x, trainSet, evaluate.evaluate)
     mateFunc = lambda speci, newNum : matingFunctions.mateTopR(speci, 25, newNum, crossoverFunctions.crossover)
-    muteFunc = lambda geno: mutationFunctions.standardMutate(geno, 0.3, 0.1, 0.03)
+    muteFunc = lambda geno: mutationFunctions.standardMutate(geno, 0.3, 10.5, 4.5)
 #    genetics.runGeneration([/pop/], 1, 1, 3, 0.1, fitFunc, mateFunc, muteFunc)
 
 
 #    pop = newPop(50)
 #    print(pop)
-    pop = loadFromFile(file2)
-    saveToFile(pop, file2)
+    pop = loadFromFile(file)
+    saveToFile(pop, file)
 
 #    currentError = 1
     while True:
         
-        n = random.randint(0, 5899)
-        n = 100
+#        n = random.randint(0, 5899)
+        n = 0
         trainSet = trainData[n:n+100]
         fitFunc = lambda x: fitnessFunctions.MNISTFitnessFromSet(x, trainSet, evaluate.evaluate)
-        nextPop, maxFit = genetics.runGeneration(pop, 1, 1, 3,4, fitFunc, mateFunc, muteFunc)
+        nextPop, maxFit = genetics.runGeneration(pop, 1000, 1000, 1,1, fitFunc, mateFunc, muteFunc)
         print("Maximum Fitness: " + str(maxFit))
         pop = nextPop
-        saveToFile(pop, file2)
+        saveToFile(pop, file)
 
 
 
@@ -75,7 +78,7 @@ trainLabels.read(8)
 trainData = []
 
 #should be 60000
-for i in range(500):
+for i in range(60000):
     image = []
     for pixle in trainImages.read(784):
         image.append(pixle/255)
@@ -101,7 +104,7 @@ for i in range(100):
     testData.append((image, [label]))
 print("Finished reading MNIST data")
 
-print("Finished reading MNIST data")
+#print("Finished reading MNIST data")
 
 #Helper functions
 

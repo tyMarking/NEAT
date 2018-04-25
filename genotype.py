@@ -76,7 +76,7 @@ class Genotype():
             W = weightSum/len(sameGenei)
         
         
-        distance = (c1*E)/N + (c2*D)/N + c3*W
+        distance = (c1*E)/N + (c2*D)/N + c3*W/N
         return distance
     
     
