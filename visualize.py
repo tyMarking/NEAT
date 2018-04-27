@@ -34,7 +34,7 @@ def viz(genome):
         i += 1
     
     print(layers)
-    drawLayers(layers, genome)
+#    drawLayers(layers, genome)
     
     
 def drawLayers(layers, genome):
